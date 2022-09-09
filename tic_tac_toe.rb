@@ -1,6 +1,10 @@
 class Game
   @@board = (1..9).to_a
 
+  def initialize p1, p2
+    play_game p1, p2
+  end
+
   def Game.display_board
     row1 = "#{@@board[0]} | #{@@board[1]} | #{@@board[2]}"
     row2 = "#{@@board[3]} | #{@@board[4]} | #{@@board[5]}"
@@ -11,6 +15,24 @@ class Game
     puts row2
     puts separator
     puts row3
+  end
+
+  private
+
+  def play_game p1, p2
+    p1_turn = true
+    Game.display_board
+    9.times do 
+      if p1_turn
+        p1.make_move
+        p1_turn = false
+        Game.display_board
+      else
+        p2.make_move
+        p1_turn = true
+        Game.display_board
+      end
+    end
   end
 end
 
@@ -36,7 +58,7 @@ class Player < Game
   end
 
   def make_move 
-    puts "Choose an available slot from the board to place your mark"
+    puts "#{self.name} choose an available slot from the board to place your mark"
     slot = gets.chomp.to_i
     @@board.each_index do |i|
       if @@board[i] == slot
@@ -45,3 +67,8 @@ class Player < Game
     end
   end
 end
+
+p1 = Player.new
+p2 = Player.new
+
+Game.new(p1, p2)
