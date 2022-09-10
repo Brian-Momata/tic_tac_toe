@@ -23,6 +23,14 @@ class Game
     p1_turn = true
     Game.display_board
     9.times do 
+      if p1.is_winner?
+        puts "#{p1.name} Wins!"
+        break
+      end
+      if p2.is_winner?
+        puts "#{p2.name} Wins!"
+        break
+      end
       if p1_turn
         p1.make_move
         p1_turn = false
@@ -32,6 +40,9 @@ class Game
         p1_turn = true
         Game.display_board
       end
+    end
+    if !p1.is_winner? && !p2.is_winner?
+      puts 'It is a Draw'
     end
   end
 end
