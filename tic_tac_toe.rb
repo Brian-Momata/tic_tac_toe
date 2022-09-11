@@ -5,7 +5,7 @@ class Game
     play_game p1, p2
   end
 
-  def Game.display_board
+  def self.display_board
     row1 = "#{@@board[0]} | #{@@board[1]} | #{@@board[2]}"
     row2 = "#{@@board[3]} | #{@@board[4]} | #{@@board[5]}"
     row3 = "#{@@board[6]} | #{@@board[7]} | #{@@board[8]}"
@@ -22,12 +22,12 @@ class Game
   def play_game p1, p2
     p1_turn = true
     Game.display_board
-    9.times do 
+    9.times do
       if p1_turn
         p1.make_move
         p1_turn = false
         Game.display_board
-        if p1.is_winner?
+        if p1.winner?
           puts "#{p1.name} Wins!"
           break
         end
@@ -35,15 +35,13 @@ class Game
         p2.make_move
         p1_turn = true
         Game.display_board
-        if p2.is_winner?
+        if p2.winner?
           puts "#{p2.name} Wins!"
           break
         end
       end
     end
-    if !p1.is_winner? && !p2.is_winner?
-      puts 'It is a Draw'
-    end
+    puts 'It is a Draw' if !p1.winner? && !p2.winner?
   end
 end
 
@@ -68,28 +66,25 @@ class Player < Game
     end
   end
 
-  def make_move 
+  def make_move
     puts "#{self.name} choose an available slot from the board to place your mark"
     slot = gets.chomp.to_i
     @@board.each_index do |i|
-      if @@board[i] == slot
-        @@board[i] = self.mark
-      end
+      @@board[i] = self.mark if @@board[i] == slot
     end
   end
 
-  def is_winner?
+  def winner?
     winning_combos = [[0, 4, 8],
-                     [0, 1, 2], 
+                     [0, 1, 2],
                      [0, 3, 6],
-                     [1, 4, 7], 
+                     [1, 4, 7],
                      [2, 5, 8],
                      [2, 4, 6],
                      [3, 4, 5],
-                     [6, 7, 8]
-                    ]
+                     [6, 7, 8]]
     winning_combos.any? do |combo|
-      combo.all? { |i| @@board[i] == self.mark}
+      combo.all? { |i| @@board[i] == self.mark }
     end
   end
 end
