@@ -1,3 +1,4 @@
+#class for the game
 class Game
   @@board = (1..9).to_a
 
@@ -44,7 +45,7 @@ class Game
     puts 'It is a Draw' if !p1.winner? && !p2.winner?
   end
 end
-
+# class for the player
 class Player < Game
   attr_accessor :name, :mark
 
